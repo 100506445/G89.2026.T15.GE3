@@ -1,9 +1,9 @@
-"""Contains the class OrderShipping"""
+"""Contains the class ProjectDocument"""
 from datetime import datetime, timezone
 import hashlib
 
 class ProjectDocument():
-    """Class representing the information required for shipping of an order"""
+    """Class representing a project document"""
 
     def __init__(self, project_id: str, file_name):
         self.__alg = "SHA-256"
@@ -30,7 +30,7 @@ class ProjectDocument():
 
     @property
     def project_id(self):
-        """Property that represents the product_id of the patient"""
+        """Property representing the project id"""
         return self.__project_id
 
     @project_id.setter
@@ -39,7 +39,7 @@ class ProjectDocument():
 
     @property
     def file_name(self):
-        """Property that represents the order_id"""
+        """Property representing the document file name"""
         return self.__file_name
     @file_name.setter
     def file_name(self, value):
@@ -47,7 +47,7 @@ class ProjectDocument():
 
     @property
     def register_date(self):
-        """Property that represents the phone number of the client"""
+        """Property representing the document register date"""
         return self.__register_date
     @register_date.setter
     def register_date(self, value):
