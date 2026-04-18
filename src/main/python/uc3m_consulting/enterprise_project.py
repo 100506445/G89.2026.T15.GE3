@@ -15,7 +15,7 @@ class EnterpriseProject:
                  project_budget: float):
         self.__company_cif = company_cif
         self.__project_description = project_description
-        self.__project_achronym = project_acronym
+        self.__project_acronym = project_acronym
         self.__department = department
         self.__starting_date = starting_date
         self.__project_budget = project_budget
@@ -30,7 +30,7 @@ class EnterpriseProject:
         return {
             "company_cif": self.__company_cif,
             "project_description": self.__project_description,
-            "project_acronym": self.__project_achronym,
+            "project_acronym": self.__project_acronym,
             "project_budget": self.__project_budget,
             "department": self.__department,
             "starting_date": self.__starting_date,
@@ -57,15 +57,15 @@ class EnterpriseProject:
 
     @property
     def project_acronym(self):
-        """Property representing the type of transfer: REGULAR, INMEDIATE or URGENT """
-        return self.__project_achronym
+        """Property representing the project acronym"""
+        return self.__project_acronym
     @project_acronym.setter
     def project_acronym(self, value):
-        self.__project_achronym = value
+        self.__project_acronym = value
 
     @property
     def project_budget(self):
-        """Property respresenting the transfer amount"""
+        """Property representing the project budget"""
         return self.__project_budget
     @project_budget.setter
     def project_budget(self, value):
@@ -73,7 +73,7 @@ class EnterpriseProject:
 
     @property
     def department(self):
-        """Property representing the transfer concept"""
+        """Property representing the project department"""
         return self.__department
     @department.setter
     def department(self, value):
@@ -81,7 +81,7 @@ class EnterpriseProject:
 
     @property
     def starting_date( self ):
-        """Property representing the transfer's date"""
+        """Property representing the project starting date"""
         return self.__starting_date
     @starting_date.setter
     def starting_date( self, value ):
