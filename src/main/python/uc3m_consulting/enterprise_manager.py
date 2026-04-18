@@ -16,6 +16,18 @@ class EnterpriseManager:
     def __init__(self):
         pass
 
+    def _parse_date(self, date_str):
+        """Validates date format and returns parsed date object"""
+        date_pattern = re.compile(r"^(([0-2]\d|3[0-1])\/(0\d|1[0-2])\/\d\d\d\d)$")
+        match_result = date_pattern.fullmatch(date_str)
+        if not match_result:
+            raise EnterpriseManagementException("Invalid date format")
+        try:
+            parsed_date = datetime.strptime(date_str, "%d/%m/%Y").date()
+        except ValueError as ex:
+            raise EnterpriseManagementException("Invalid date format") from ex
+        return parsed_date
+
     @staticmethod
     def validate_cif(cif: str):
         """validates a cif number """
@@ -63,20 +75,12 @@ class EnterpriseManager:
 
     def validate_starting_date(self, date_str):
         """validates the  date format  using regex"""
-        date_pattern = re.compile(r"^(([0-2]\d|3[0-1])\/(0\d|1[0-2])\/\d\d\d\d)$")
-        match_result = date_pattern.fullmatch(date_str)
-        if not match_result:
-            raise EnterpriseManagementException("Invalid date format")
+        parsed_date = self._parse_date(date_str)
 
-        try:
-            my_date = datetime.strptime(date_str, "%d/%m/%Y").date()
-        except ValueError as ex:
-            raise EnterpriseManagementException("Invalid date format") from ex
-
-        if my_date < datetime.now(timezone.utc).date():
+        if parsed_date < datetime.now(timezone.utc).date():
             raise EnterpriseManagementException("Project's date must be today or later.")
 
-        if my_date.year < 2025 or my_date.year > 2050:
+        if parsed_date.year < 2025 or parsed_date.year > 2050:
             raise EnterpriseManagementException("Invalid date format")
         return date_str
     #pylint: disable=too-many-arguments, too-many-positional-arguments
@@ -168,15 +172,7 @@ class EnterpriseManager:
             EnterpriseManagementException: On invalid date, file IO errors,
                 missing data, or cryptographic integrity failure.
         """
-        date_pattern = re.compile(r"^(([0-2]\d|3[0-1])\/(0\d|1[0-2])\/\d\d\d\d)$")
-        match_result = date_pattern.fullmatch(date_str)
-        if not match_result:
-            raise EnterpriseManagementException("Invalid date format")
-
-        try:
-            my_date = datetime.strptime(date_str, "%d/%m/%Y").date()
-        except ValueError as ex:
-            raise EnterpriseManagementException("Invalid date format") from ex
+        parsed_date = self._parse_date(date_str)
 
 
         # open documents
