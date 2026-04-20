@@ -28,9 +28,35 @@ class EnterpriseManager:
             raise EnterpriseManagementException("Invalid date format") from ex
         return parsed_date
 
-    @staticmethod
-    def validate_cif(cif: str):
-        """validates a cif number """
+    def _calculate_cif_sums(self, digits):
+        """Calculates odd and even position sums for CIF validation"""
+        odd_sum = 0
+        even_sum = 0
+        for i, digit in enumerate(digits):
+            if i % 2 == 0:
+                x = int(digit) * 2
+                if x > 9:
+                    odd_sum = odd_sum + (x // 10) + (x % 10)
+                else:
+                    odd_sum = odd_sum + x
+            else:
+                    even_sum = even_sum + int(digit)
+        return odd_sum, even_sum
+
+    def _validate_cif_control(self, cif_letter, remainder, control_char):
+        """Validates the CIF control character based on letter type"""
+        dic = "JABCDEFGHI"
+        if cif_letter in ('A', 'B', 'E', 'H'):
+            if str(remainder) != control_char:
+                raise EnterpriseManagementException("Invalid CIF character control number")
+        elif cif_letter in ('P', 'Q', 'S', 'K'):
+            if dic[remainder] != control_char:
+                raise EnterpriseManagementException("Invalid CIF character control letter")
+        else:
+            raise EnterpriseManagementException("CIF type not supported")
+
+    def validate_cif(self, cif: str):
+        """validates a cif number"""
         if not isinstance(cif, str):
             raise EnterpriseManagementException("CIF code must be a string")
         cif_pattern = re.compile(r"^[ABCDEFGHJKNPQRSUVW]\d{7}[0-9A-J]$")
@@ -41,19 +67,7 @@ class EnterpriseManager:
         digits = cif[1:8]
         control_char = cif[8]
 
-        odd_sum = 0
-        even_sum = 0
-
-        for i in range(len(digits)):
-            if i % 2 == 0:
-                x = int(digits[i]) * 2
-                if x > 9:
-                    odd_sum = odd_sum + (x // 10) + (x % 10)
-                else:
-                    odd_sum = odd_sum + x
-            else:
-                even_sum = even_sum + int(digits[i])
-
+        odd_sum, even_sum = self._calculate_cif_sums(digits)
         total = odd_sum + even_sum
         units_digit = total % 10
         remainder = 10 - units_digit
@@ -61,16 +75,7 @@ class EnterpriseManager:
         if remainder == 10:
             remainder = 0
 
-        dic = "JABCDEFGHI"
-
-        if cif_letter in ('A', 'B', 'E', 'H'):
-            if str(remainder) != control_char:
-                raise EnterpriseManagementException("Invalid CIF character control number")
-        elif cif_letter in ('P', 'Q', 'S', 'K'):
-            if dic[remainder] != control_char:
-                raise EnterpriseManagementException("Invalid CIF character control letter")
-        else:
-            raise EnterpriseManagementException("CIF type not supported")
+        self._validate_cif_control(cif_letter, remainder, control_char)
         return True
 
     def validate_starting_date(self, date_str):
@@ -172,7 +177,7 @@ class EnterpriseManager:
             EnterpriseManagementException: On invalid date, file IO errors,
                 missing data, or cryptographic integrity failure.
         """
-        parsed_date = self._parse_date(date_str)
+        self._parse_date(date_str)
 
 
         # open documents
