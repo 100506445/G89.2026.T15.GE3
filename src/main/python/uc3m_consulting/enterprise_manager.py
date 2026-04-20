@@ -34,23 +34,23 @@ class EnterpriseManager:
         even_sum = 0
         for i, digit in enumerate(digits):
             if i % 2 == 0:
-                x = int(digit) * 2
-                if x > 9:
-                    odd_sum = odd_sum + (x // 10) + (x % 10)
+                doubled_digit = int(digit) * 2
+                if doubled_digit > 9:
+                    odd_sum = odd_sum + (doubled_digit // 10) + (doubled_digit % 10)
                 else:
-                    odd_sum = odd_sum + x
+                    odd_sum = odd_sum + doubled_digit
             else:
                 even_sum = even_sum + int(digit)
         return odd_sum, even_sum
 
     def _validate_cif_control(self, cif_letter, remainder, control_char):
         """Validates the CIF control character based on letter type"""
-        dic = "JABCDEFGHI"
+        control_letters = "JABCDEFGHI"
         if cif_letter in ('A', 'B', 'E', 'H'):
             if str(remainder) != control_char:
                 raise EnterpriseManagementException("Invalid CIF character control number")
         elif cif_letter in ('P', 'Q', 'S', 'K'):
-            if dic[remainder] != control_char:
+            if control_letters[remainder] != control_char:
                 raise EnterpriseManagementException("Invalid CIF character control letter")
         else:
             raise EnterpriseManagementException("CIF type not supported")
