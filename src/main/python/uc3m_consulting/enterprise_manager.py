@@ -98,33 +98,7 @@ class EnterpriseManager:
                          budget: str):
         """registers a new project"""
         self.validate_cif(company_cif)
-        description_pattern = re.compile(r"^.{10,30}$")
-        match_result = description_pattern.fullmatch(project_description)
-        if not match_result:
-            raise EnterpriseManagementException("Invalid description format")
-
-        department_pattern = re.compile(r"(HR|FINANCE|LEGAL|LOGISTICS)")
-        match_result = department_pattern.fullmatch(department)
-        if not match_result:
-            raise EnterpriseManagementException("Invalid department")
-
         self.validate_starting_date(date)
-
-        try:
-            budget_float  = float(budget)
-        except ValueError as exc:
-            raise EnterpriseManagementException("Invalid budget amount") from exc
-
-        budget_str = str(budget_float)
-        if '.' in budget_str:
-            decimal_places = len(budget_str.split('.')[1])
-            if decimal_places > 2:
-                raise EnterpriseManagementException("Invalid budget amount")
-
-        if budget_float < 50000 or budget_float > 1000000:
-            raise EnterpriseManagementException("Invalid budget amount")
-
-
         new_project = EnterpriseProject(company_cif=company_cif,
                                         project_acronym=project_acronym,
                                         project_description=project_description,
