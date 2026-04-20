@@ -2,6 +2,7 @@
 import hashlib
 import json
 from datetime import datetime, timezone
+from uc3m_consulting.attributes.attribute_acronym import ProjectAcronym
 
 class EnterpriseProject:
     """Class representing a project"""
@@ -15,7 +16,7 @@ class EnterpriseProject:
                  project_budget: float):
         self.__company_cif = company_cif
         self.__project_description = project_description
-        self.__project_achronym = project_acronym
+        self.__project_achronym = ProjectAcronym(project_acronym).value
         self.__department = department
         self.__starting_date = starting_date
         self.__project_budget = project_budget

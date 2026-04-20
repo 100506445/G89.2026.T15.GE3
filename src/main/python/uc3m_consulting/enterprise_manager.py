@@ -98,10 +98,6 @@ class EnterpriseManager:
                          budget: str):
         """registers a new project"""
         self.validate_cif(company_cif)
-        acronym_pattern = re.compile(r"^[a-zA-Z0-9]{5,10}")
-        match_result = acronym_pattern.fullmatch(project_acronym)
-        if not match_result:
-            raise EnterpriseManagementException("Invalid acronym")
         description_pattern = re.compile(r"^.{10,30}$")
         match_result = description_pattern.fullmatch(project_description)
         if not match_result:
