@@ -40,7 +40,7 @@ class EnterpriseManager:
                 else:
                     odd_sum = odd_sum + x
             else:
-                    even_sum = even_sum + int(digit)
+                even_sum = even_sum + int(digit)
         return odd_sum, even_sum
 
     def _validate_cif_control(self, cif_letter, remainder, control_char):
