@@ -8,9 +8,15 @@ class StartingDate(Date):
         self._attr_value = self._validate_future(attr_value)
 
     def _validate_future(self, value):
-        parsed_date = datetime.strptime(value, "%d/%m/%Y").date()
+        try:
+            parsed_date = datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError as ex:
+            raise EnterpriseManagementException("Invalid date format") from ex
+
         if parsed_date < datetime.now(timezone.utc).date():
             raise EnterpriseManagementException("Project's date must be today or later.")
+        
         if parsed_date.year < 2025 or parsed_date.year > 2050:
             raise EnterpriseManagementException("Invalid date format")
+            
         return value

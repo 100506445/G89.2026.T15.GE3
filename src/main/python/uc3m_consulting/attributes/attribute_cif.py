@@ -1,4 +1,3 @@
-import re
 from uc3m_consulting.attributes.attribute import Attribute
 from uc3m_consulting.enterprise_management_exception import EnterpriseManagementException
 
@@ -31,11 +30,6 @@ class CompanyCif(Attribute):
         total = odd_sum + even_sum
         remainder = (10 - (total % 10)) % 10
         
-        self._validate_control(cif_letter, remainder, control_char)
-        return value
-
-    def _validate_control(self, cif_letter, remainder, control_char):
-        """Comprueba el dígito o letra de control"""
         control_letters = "JABCDEFGHI"
         if cif_letter in ('A', 'B', 'E', 'H'):
             if str(remainder) != control_char:
@@ -43,5 +37,5 @@ class CompanyCif(Attribute):
         elif cif_letter in ('P', 'Q', 'S', 'K'):
             if control_letters[remainder] != control_char:
                 raise EnterpriseManagementException("Invalid CIF character control letter")
-        elif cif_letter not in ('A', 'B', 'E', 'H', 'P', 'Q', 'S', 'K'):
-            pass
+                
+        return value
