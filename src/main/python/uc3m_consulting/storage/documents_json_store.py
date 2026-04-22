@@ -6,9 +6,14 @@ from uc3m_consulting.enterprise_manager_config import TEST_DOCUMENTS_STORE_FILE,
 from uc3m_consulting.project_document import ProjectDocument
 
 class DocumentsJsonStore:
-    def __init__(self):
-        self._input_file = TEST_DOCUMENTS_STORE_FILE
-        self._output_file = TEST_NUMDOCS_STORE_FILE
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(DocumentsJsonStore, cls).__new__(cls)
+            cls._instance._input_file = TEST_DOCUMENTS_STORE_FILE
+            cls._instance._output_file = TEST_NUMDOCS_STORE_FILE
+        return cls._instance
 
     def count_and_report(self, date_str):
         documents_list = self._load_documents()

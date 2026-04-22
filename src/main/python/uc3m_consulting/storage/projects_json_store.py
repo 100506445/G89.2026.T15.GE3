@@ -3,8 +3,13 @@ from uc3m_consulting.enterprise_management_exception import EnterpriseManagement
 from uc3m_consulting.enterprise_manager_config import PROJECTS_STORE_FILE
 
 class ProjectsJsonStore:
-    def __init__(self):
-        self._file_path = PROJECTS_STORE_FILE
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(ProjectsJsonStore, cls).__new__(cls)
+            cls._instance._file_path = PROJECTS_STORE_FILE
+        return cls._instance
 
     def add_project(self, project):
         data_list = self._load_data()

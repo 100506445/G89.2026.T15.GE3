@@ -5,8 +5,12 @@ from uc3m_consulting.storage.projects_json_store import ProjectsJsonStore
 from uc3m_consulting.storage.documents_json_store import DocumentsJsonStore
 
 class EnterpriseManager:
-    def __init__(self):
-        pass
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(EnterpriseManager, cls).__new__(cls)
+        return cls._instance
 
     def register_project(self, company_cif, project_acronym, project_description,
                          department, date, budget):
