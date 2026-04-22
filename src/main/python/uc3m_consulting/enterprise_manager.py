@@ -28,56 +28,6 @@ class EnterpriseManager:
             raise EnterpriseManagementException("Invalid date format") from ex
         return parsed_date
 
-    def _calculate_cif_sums(self, digits):
-        """Calculates odd and even position sums for CIF validation"""
-        odd_sum = 0
-        even_sum = 0
-        for i, digit in enumerate(digits):
-            if i % 2 == 0:
-                doubled_digit = int(digit) * 2
-                if doubled_digit > 9:
-                    odd_sum = odd_sum + (doubled_digit // 10) + (doubled_digit % 10)
-                else:
-                    odd_sum = odd_sum + doubled_digit
-            else:
-                even_sum = even_sum + int(digit)
-        return odd_sum, even_sum
-
-    def _validate_cif_control(self, cif_letter, remainder, control_char):
-        """Validates the CIF control character based on letter type"""
-        control_letters = "JABCDEFGHI"
-        if cif_letter in ('A', 'B', 'E', 'H'):
-            if str(remainder) != control_char:
-                raise EnterpriseManagementException("Invalid CIF character control number")
-        elif cif_letter in ('P', 'Q', 'S', 'K'):
-            if control_letters[remainder] != control_char:
-                raise EnterpriseManagementException("Invalid CIF character control letter")
-        else:
-            raise EnterpriseManagementException("CIF type not supported")
-
-    def validate_cif(self, cif: str):
-        """validates a cif number"""
-        if not isinstance(cif, str):
-            raise EnterpriseManagementException("CIF code must be a string")
-        cif_pattern = re.compile(r"^[ABCDEFGHJKNPQRSUVW]\d{7}[0-9A-J]$")
-        if not cif_pattern.fullmatch(cif):
-            raise EnterpriseManagementException("Invalid CIF format")
-
-        cif_letter = cif[0]
-        digits = cif[1:8]
-        control_char = cif[8]
-
-        odd_sum, even_sum = self._calculate_cif_sums(digits)
-        total = odd_sum + even_sum
-        units_digit = total % 10
-        remainder = 10 - units_digit
-
-        if remainder == 10:
-            remainder = 0
-
-        self._validate_cif_control(cif_letter, remainder, control_char)
-        return True
-
     def validate_starting_date(self, date_str):
         """validates the  date format  using regex"""
         parsed_date = self._parse_date(date_str)
@@ -97,7 +47,6 @@ class EnterpriseManager:
                          date: str,
                          budget: str):
         """registers a new project"""
-        self.validate_cif(company_cif)
         self.validate_starting_date(date)
         new_project = EnterpriseProject(company_cif=company_cif,
                                         project_acronym=project_acronym,
