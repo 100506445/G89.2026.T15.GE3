@@ -1,26 +1,20 @@
-"""Módulo para la validación del CIF de la empresa"""
 import re
 from uc3m_consulting.attributes.attribute import Attribute
 from uc3m_consulting.enterprise_management_exception import EnterpriseManagementException
 
 class CompanyCif(Attribute):
-    """Clase para validar el CIF con lógica matemática"""
     def __init__(self, attr_value):
         super().__init__()
-        # 1. Validación básica de formato
         self._validation_pattern = r"^[ABCDEFGHJKNPQRSUVW]\d{7}[0-9A-J]$"
         self._error_message = "Invalid CIF format"
         self._attr_value = self._validate(attr_value)
 
     def _validate(self, value):
-        # Primero comprobamos que sea un string (como hacía el manager)
         if not isinstance(value, str):
             raise EnterpriseManagementException("CIF code must be a string")
         
-        # Validación por regex (clase padre)
         super()._validate(value)
 
-        # 2. Lógica matemática del CIF (extraída del manager)
         cif_letter = value[0]
         digits = value[1:8]
         control_char = value[8]
@@ -50,5 +44,4 @@ class CompanyCif(Attribute):
             if control_letters[remainder] != control_char:
                 raise EnterpriseManagementException("Invalid CIF character control letter")
         elif cif_letter not in ('A', 'B', 'E', 'H', 'P', 'Q', 'S', 'K'):
-            # Para el resto de letras aceptadas por el regex pero no validadas específicamente
             pass

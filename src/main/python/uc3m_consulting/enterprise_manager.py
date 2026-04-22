@@ -10,35 +10,13 @@ from uc3m_consulting.enterprise_manager_config import (PROJECTS_STORE_FILE,
                                                        TEST_DOCUMENTS_STORE_FILE,
                                                        TEST_NUMDOCS_STORE_FILE)
 from uc3m_consulting.project_document import ProjectDocument
-
+from uc3m_consulting.attributes.attribute_starting_date import StartingDate
+from uc3m_consulting.attributes.attribute_date import Date
 class EnterpriseManager:
     """Class for providing the methods for managing the orders"""
     def __init__(self):
         pass
 
-    def _parse_date(self, date_str):
-        """Validates date format and returns parsed date object"""
-        date_pattern = re.compile(r"^(([0-2]\d|3[0-1])\/(0\d|1[0-2])\/\d\d\d\d)$")
-        match_result = date_pattern.fullmatch(date_str)
-        if not match_result:
-            raise EnterpriseManagementException("Invalid date format")
-        try:
-            parsed_date = datetime.strptime(date_str, "%d/%m/%Y").date()
-        except ValueError as ex:
-            raise EnterpriseManagementException("Invalid date format") from ex
-        return parsed_date
-
-    def validate_starting_date(self, date_str):
-        """validates the  date format  using regex"""
-        parsed_date = self._parse_date(date_str)
-
-        if parsed_date < datetime.now(timezone.utc).date():
-            raise EnterpriseManagementException("Project's date must be today or later.")
-
-        if parsed_date.year < 2025 or parsed_date.year > 2050:
-            raise EnterpriseManagementException("Invalid date format")
-        return date_str
-    #pylint: disable=too-many-arguments, too-many-positional-arguments
     def register_project(self,
                          company_cif: str,
                          project_acronym: str,
@@ -47,7 +25,6 @@ class EnterpriseManager:
                          date: str,
                          budget: str):
         """registers a new project"""
-        self.validate_starting_date(date)
         new_project = EnterpriseProject(company_cif=company_cif,
                                         project_acronym=project_acronym,
                                         project_description=project_description,
@@ -96,9 +73,7 @@ class EnterpriseManager:
             EnterpriseManagementException: On invalid date, file IO errors,
                 missing data, or cryptographic integrity failure.
         """
-        self._parse_date(date_str)
-
-
+        Date(date_str)
         # open documents
         try:
             with open(TEST_DOCUMENTS_STORE_FILE, "r", encoding="utf-8", newline="") as file:

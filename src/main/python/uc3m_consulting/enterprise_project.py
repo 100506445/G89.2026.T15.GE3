@@ -7,6 +7,7 @@ from uc3m_consulting.attributes.attribute_description import ProjectDescription
 from uc3m_consulting.attributes.attribute_department import ProjectDepartment
 from uc3m_consulting.attributes.attribute_budget import ProjectBudget
 from uc3m_consulting.attributes.attribute_cif import CompanyCif
+from uc3m_consulting.attributes.attribute_starting_date import StartingDate
 class EnterpriseProject:
     """Class representing a project"""
     #pylint: disable=too-many-arguments, too-many-positional-arguments
@@ -21,7 +22,7 @@ class EnterpriseProject:
         self.__project_description = ProjectDescription(project_description).value
         self.__project_achronym = ProjectAcronym(project_acronym).value
         self.__department = ProjectDepartment(department).value
-        self.__starting_date = starting_date
+        self.__starting_date = StartingDate(starting_date).value
         self.__project_budget = ProjectBudget(project_budget).value
         justnow = datetime.now(timezone.utc)
         self.__time_stamp = datetime.timestamp(justnow)
