@@ -1,17 +1,24 @@
+"""Module containing the CompanyCif class"""
 from uc3m_consulting.attributes.attribute import Attribute
 from uc3m_consulting.enterprise_management_exception import EnterpriseManagementException
 
+
+#pylint: disable=too-few-public-methods
 class CompanyCif(Attribute):
+    """Class for validating company CIF"""
+
     def __init__(self, attr_value):
+        """Initializes and validates the company CIF"""
         super().__init__()
         self._validation_pattern = r"^[ABCDEFGHJKNPQRSUVW]\d{7}[0-9A-J]$"
         self._error_message = "Invalid CIF format"
         self._attr_value = self._validate(attr_value)
 
     def _validate(self, value):
+        """Validates the CIF number"""
         if not isinstance(value, str):
             raise EnterpriseManagementException("CIF code must be a string")
-        
+
         super()._validate(value)
 
         cif_letter = value[0]
@@ -29,7 +36,7 @@ class CompanyCif(Attribute):
 
         total = odd_sum + even_sum
         remainder = (10 - (total % 10)) % 10
-        
+
         control_letters = "JABCDEFGHI"
         if cif_letter in ('A', 'B', 'E', 'H'):
             if str(remainder) != control_char:
@@ -37,5 +44,5 @@ class CompanyCif(Attribute):
         elif cif_letter in ('P', 'Q', 'S', 'K'):
             if control_letters[remainder] != control_char:
                 raise EnterpriseManagementException("Invalid CIF character control letter")
-                
+
         return value
