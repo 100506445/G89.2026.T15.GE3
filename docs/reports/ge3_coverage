@@ -1,0 +1,22 @@
+Name                                                    Stmts   Miss Branch BrPart  Cover
+-----------------------------------------------------------------------------------------
+uc3m_consulting\__init__.py                                 5      0      0      0   100%
+uc3m_consulting\attributes\__init__.py                      0      0      0      0   100%
+uc3m_consulting\attributes\attribute.py                    19      1      2      0    95%
+uc3m_consulting\attributes\attribute_acronym.py             7      0      0      0   100%
+uc3m_consulting\attributes\attribute_budget.py             17      0      4      0   100%
+uc3m_consulting\attributes\attribute_cif.py                32      2     14      3    89%
+uc3m_consulting\attributes\attribute_date.py                7      0      0      0   100%
+uc3m_consulting\attributes\attribute_department.py          7      0      0      0   100%
+uc3m_consulting\attributes\attribute_description.py         7      0      0      0   100%
+uc3m_consulting\attributes\attribute_starting_date.py      17      0      4      0   100%
+uc3m_consulting\enterprise_management_exception.py         10      1      0      0    90%
+uc3m_consulting\enterprise_manager.py                      19      0      2      0   100%
+uc3m_consulting\enterprise_manager_config.py               10      0      0      0   100%
+uc3m_consulting\enterprise_project.py                      32      2      0      0    94%
+uc3m_consulting\project_document.py                        35      7      0      0    80%
+uc3m_consulting\storage\__init__.py                         0      0      0      0   100%
+uc3m_consulting\storage\documents_json_store.py            53      6     10      1    89%
+uc3m_consulting\storage\projects_json_store.py             34      4      6      0    90%
+-----------------------------------------------------------------------------------------
+TOTAL                                                     311     23     42      4    92%

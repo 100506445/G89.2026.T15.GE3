@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="test_documents_repor_tests.TestTransferRequestTest-20260423105234" tests="3" file="test_documents_repor_tests.py" time="0.156" timestamp="2026-04-23T10:52:36" failures="0" errors="0" skipped="0">
+	<testcase classname="test_documents_repor_tests.TestTransferRequestTest" name="test_file_wrong_date" time="0.104" timestamp="2026-04-23T10:52:36"/>
+	<testcase classname="test_documents_repor_tests.TestTransferRequestTest" name="test_report_not_found" time="0.023" timestamp="2026-04-23T10:52:36"/>
+	<testcase classname="test_documents_repor_tests.TestTransferRequestTest" name="test_valid_date" time="0.029" timestamp="2026-04-23T10:52:36"/>
+</testsuite>
