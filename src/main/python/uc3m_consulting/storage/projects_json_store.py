@@ -9,6 +9,10 @@ class ProjectsJsonStore:
 
     _instance = None
 
+    def __init__(self):
+        """Initializes ProjectsJsonStore instance variables"""
+        self._file_path = PROJECTS_STORE_FILE
+
     def __new__(cls):
         """Creates a single instance of ProjectsJsonStore (Singleton)"""
         if cls._instance is None:

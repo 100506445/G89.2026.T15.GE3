@@ -13,6 +13,11 @@ class DocumentsJsonStore:
 
     _instance = None
 
+    def __init__(self):
+        """Initializes DocumentsJsonStore instance variables"""
+        self._input_file = TEST_DOCUMENTS_STORE_FILE
+        self._output_file = TEST_NUMDOCS_STORE_FILE
+
     def __new__(cls):
         """Creates a single instance of DocumentsJsonStore (Singleton)"""
         if cls._instance is None:
